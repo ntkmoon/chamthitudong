@@ -999,7 +999,7 @@
                         <table id="lecturers-table">
                             <thead>
                                 <tr>
-                                    <th>Mã GV</th>
+                                    <th>STT</th>
                                     <th>Họ và tên</th>
                                     <th>Email</th>
                                     <th>Khoa/Bộ môn</th>
@@ -1008,23 +1008,23 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>L001</td>
+                                    <td>1</td>
                                     <td>ThS. Nguyễn Kim Anh</td>
                                     <td>nguyenkimanh@vmu.edu.vn</td>
                                     <td>Công nghệ Thông tin</td>
                                     <td>
-                                        <button class="action-btn" onclick="editItem('lecturer', 'L001')">Sửa</button>
-                                        <button class="action-btn delete-btn" onclick="deleteItem('lecturer', 'L001')">Xóa</button>
+                                        <button class="action-btn" onclick="editItem('lecturer', '1')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteItem('lecturer', '1')">Xóa</button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>L002</td>
+                                    <td>2</td>
                                     <td>ThS. Mai Thị Trang</td>
                                     <td>maithitrang@vmu.edu.vn</td>
                                     <td>Công nghệ thông tin</td>
                                     <td>
-                                        <button class="action-btn" onclick="editItem('lecturer', 'L002')">Sửa</button>
-                                        <button class="action-btn delete-btn" onclick="deleteItem('lecturer', 'L002')">Xóa</button>
+                                        <button class="action-btn" onclick="editItem('lecturer', '2')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteItem('lecturer', '2')">Xóa</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -2027,8 +2027,8 @@
                         <label for="class-lecturer">Giảng viên</label>
                         <select id="class-lecturer" required>
                             <option value="">Chọn giảng viên</option>
-                            <option value="L001">ThS. Nguyễn Kim Anh</option>
-                            <option value="L002">ThS. Mai Thị Trang</option>
+                            <option value="1">ThS. Nguyễn Kim Anh</option>
+                            <option value="2">ThS. Mai Thị Trang</option>
                         </select>
                     </div>
                     <div class="modal-form-group">
@@ -2996,11 +2996,11 @@
                 document.getElementById('lecturer-fields').style.display = 'block';
                 
                 // Trong ứng dụng thực, bạn sẽ lấy dữ liệu từ database
-                if (itemId === 'L001') {
+                if (itemId === '1') {
                     document.getElementById('lecturer-name').value = 'ThS. Nguyễn Kim Anh';
                     document.getElementById('lecturer-email').value = 'nguyenkimanh@vimu.edu.vn';
                     document.getElementById('lecturer-dept').value = 'Tin học văn phòng';
-                } else if (itemId === 'L002') {
+                } else if (itemId === '2') {
                     document.getElementById('lecturer-name').value = 'ThS. Mai Thị Trang';
                     document.getElementById('lecturer-email').value = 'maithitrang@vimu.edu.vn';
                     document.getElementById('lecturer-dept').value = 'Tin học văn phòng';
@@ -3026,12 +3026,12 @@
                 if (itemId === '17206 - NO1') {
                     document.getElementById('class-code').value = '17206 - NO1';
                     document.getElementById('class-name').value = 'Tin học văn phòng';
-                    document.getElementById('class-lecturer').value = 'L001';
+                    document.getElementById('class-lecturer').value = '1';
                     document.getElementById('class-schedule').value = 'T2/T4 8:00-10:00';
                 } else if (itemId === '17206 - NO2') {
                     document.getElementById('class-code').value = '17206 - NO2';
                     document.getElementById('class-name').value = 'Tin học văn phòng';
-                    document.getElementById('class-lecturer').value = 'L002';
+                    document.getElementById('class-lecturer').value = '2';
                     document.getElementById('class-schedule').value = 'T3/T5 13:00-15:00';
                 }
             } else if (itemType === 'exam') {
