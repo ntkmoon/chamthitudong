@@ -237,7 +237,7 @@
             font-weight: bold;
         }
         
-        .modal-form-group input, .modal-form-group select {
+        .modal-form-group input, .modal-form-group select, .modal-form-group textarea {
             width: 100%;
             padding: 8px;
             border: 1px solid #ddd;
@@ -714,7 +714,190 @@
         .back-btn:hover {
             background-color: #555;
         }
+
+        /* Multi-select styles */
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-selection {
+            min-height: 38px;
+            border: 1px solid #ddd !important;
+            border-radius: 4px !important;
+        }
+
+        /* Error message */
+        .error-message {
+            color: #cc0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Import student section */
+        .import-student-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #f0f7ff;
+            border-radius: 8px;
+        }
+
+        .import-student-section h4 {
+            color: #003366;
+            margin-bottom: 15px;
+        }
+
+        .import-instructions {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            border-left: 4px solid #003366;
+        }
+
+        .import-instructions ol {
+            padding-left: 20px;
+        }
+
+        .import-instructions li {
+            margin-bottom: 8px;
+        }
+
+        .import-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* Practice Exercises Section */
+        .practice-exercises-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #003366;
+        }
+        
+        .practice-exercises-section h3 {
+            color: #003366;
+            margin-bottom: 15px;
+        }
+        
+        .exercise-list {
+            margin-top: 20px;
+        }
+        
+        .exercise-item {
+            padding: 15px;
+            background-color: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .exercise-info {
+            flex-grow: 1;
+        }
+        
+        .exercise-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .exercise-details {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .exercise-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .exercise-file {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .exercise-file-icon {
+            margin-right: 10px;
+            color: #003366;
+        }
+        
+        .exercise-file-info {
+            flex-grow: 1;
+        }
+        
+        .exercise-file-name {
+            font-weight: bold;
+        }
+        
+        .exercise-file-size {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Assignment Modal */
+        .assignment-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        
+        .assignment-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 60%;
+            border-radius: 8px;
+        }
+        
+        .assignment-form-group {
+            margin-bottom: 15px;
+        }
+        
+        .assignment-form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .assignment-form-group input, 
+        .assignment-form-group select, 
+        .assignment-form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .assignment-form-group textarea {
+            min-height: 100px;
+        }
+        
+        .deadline-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .deadline-input input {
+            flex-grow: 1;
+        }
     </style>
+    <!-- Include Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -727,7 +910,7 @@
                 </div>
             </div>
             
-            <!-- User Profile and Notification Controls -->
+            <!-- User Profile and Notification Controls - Initially hidden -->
             <div class="header-controls hidden" id="header-controls">
                 <div class="notification-bell-container">
                     <div class="notification-bell">
@@ -737,7 +920,7 @@
                     <div class="notification-dropdown">
                         <div class="notification-header">Thông báo</div>
                         <div class="notification-item unread">
-                            <div>Bạn có 1 bài tập mới từ môn Hàng hải cơ bản</div>
+                            <div>Bạn có 1 bài tập mới từ môn Tin học văn phòng</div>
                             <div class="notification-time">10 phút trước</div>
                         </div>
                         <div class="notification-item unread">
@@ -826,9 +1009,9 @@
                             <tbody>
                                 <tr>
                                     <td>L001</td>
-                                    <td>TS. Nguyễn Văn A</td>
-                                    <td>nguyenvana@vimu.edu.vn</td>
-                                    <td>Hàng hải</td>
+                                    <td>TS. Nguyễn Kim Anh</td>
+                                    <td>nguyenkimanh@vmu.edu.vn</td>
+                                    <td>Công nghệ Thông tin</td>
                                     <td>
                                         <button class="action-btn" onclick="editItem('lecturer', 'L001')">Sửa</button>
                                         <button class="action-btn delete-btn" onclick="deleteItem('lecturer', 'L001')">Xóa</button>
@@ -836,9 +1019,9 @@
                                 </tr>
                                 <tr>
                                     <td>L002</td>
-                                    <td>PGS. Trần Thị B</td>
-                                    <td>tranthib@vimu.edu.vn</td>
-                                    <td>Máy tàu biển</td>
+                                    <td>TS. Mai Thị Trang</td>
+                                    <td>maithitrang@vmu.edu.vn</td>
+                                    <td>Công nghệ thông tin</td>
                                     <td>
                                         <button class="action-btn" onclick="editItem('lecturer', 'L002')">Sửa</button>
                                         <button class="action-btn delete-btn" onclick="deleteItem('lecturer', 'L002')">Xóa</button>
@@ -853,6 +1036,44 @@
                 <div id="student-tab" class="tab-content">
                     <div class="feature-card">
                         <h3>Quản lý sinh viên</h3>
+                        
+                        <!-- Import Student Section -->
+                        <div class="import-student-section">
+                            <h4>Nhập danh sách sinh viên từ file Excel</h4>
+                            <div class="form-group">
+                                <label for="import-class">Chọn lớp:</label>
+                                <select id="import-class" class="form-control">
+                                    <option value="">-- Chọn lớp --</option>
+                                    <option value="17206 - NO1">17206 - NO1 - Tin học văn phòng</option>
+                                    <option value="17206 - NO2">17206 - NO2 - Tin học văn phòng</option>
+                                    <option value="17206 - NO3">17206 - NO3 - Tin học văn phòng</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="student-excel-file">Chọn file Excel:</label>
+                                <input type="file" id="student-excel-file" accept=".xlsx, .xls, .csv">
+                            </div>
+                            
+                            <div class="import-actions">
+                                <button class="action-btn" onclick="importStudents()">Nhập dữ liệu</button>
+                                <button class="action-btn" onclick="downloadStudentTemplate()">Tải file mẫu</button>
+                            </div>
+                            
+                            <div class="import-instructions">
+                                <h5>Hướng dẫn nhập dữ liệu:</h5>
+                                <ol>
+                                    <li>Tải file mẫu và điền thông tin sinh viên theo đúng định dạng</li>
+                                    <li>File Excel phải có các cột theo thứ tự: Mã SV, Họ và tên, Email, Ngày sinh, Giới tính</li>
+                                    <li>Đảm bảo mã sinh viên là duy nhất</li>
+                                    <li>Email phải đúng định dạng và chưa được sử dụng trong hệ thống</li>
+                                    <li>Chọn lớp trước khi nhập dữ liệu</li>
+                                </ol>
+                            </div>
+                            
+                            <div id="import-result" class="hidden" style="margin-top: 15px; padding: 10px; border-radius: 5px;"></div>
+                        </div>
+                        
                         <button class="action-btn" onclick="openModal('student')">Thêm sinh viên mới</button>
                         <table id="students-table">
                             <thead>
@@ -861,6 +1082,8 @@
                                     <th>Họ và tên</th>
                                     <th>Email</th>
                                     <th>Lớp</th>
+                                    <th>Ngày sinh</th>
+                                    <th>Giới tính</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -869,7 +1092,9 @@
                                     <td>S001</td>
                                     <td>Lê Văn C</td>
                                     <td>levanc@student.vimu.edu.vn</td>
-                                    <td>DHHH-01</td>
+                                    <td>17206 - NO1</td>
+                                    <td>15/05/2000</td>
+                                    <td>Nam</td>
                                     <td>
                                         <button class="action-btn" onclick="editItem('student', 'S001')">Sửa</button>
                                         <button class="action-btn delete-btn" onclick="deleteItem('student', 'S001')">Xóa</button>
@@ -879,7 +1104,9 @@
                                     <td>S002</td>
                                     <td>Phạm Thị D</td>
                                     <td>phamthid@student.vimu.edu.vn</td>
-                                    <td>DHHH-02</td>
+                                    <td>17206 - NO2</td>
+                                    <td>20/08/2001</td>
+                                    <td>Nữ</td>
                                     <td>
                                         <button class="action-btn" onclick="editItem('student', 'S002')">Sửa</button>
                                         <button class="action-btn delete-btn" onclick="deleteItem('student', 'S002')">Xóa</button>
@@ -902,28 +1129,31 @@
                                     <th>Tên lớp</th>
                                     <th>Giảng viên</th>
                                     <th>Lịch học</th>
+                                    <th>Số SV</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>DHHH-01</td>
-                                    <td>Hàng hải cơ bản</td>
-                                    <td>TS. Nguyễn Văn A</td>
+                                    <td>17206 - NO1</td>
+                                    <td>Tin đại cương</td>
+                                    <td>TS. Nguyễn Kim Anh</td>
                                     <td>T2/T4 8:00-10:00</td>
+                                    <td>45</td>
                                     <td>
-                                        <button class="action-btn" onclick="editItem('class', 'DHHH-01')">Sửa</button>
-                                        <button class="action-btn delete-btn" onclick="deleteItem('class', 'DHHH-01')">Xóa</button>
+                                        <button class="action-btn" onclick="editItem('class', '17206 - NO1')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteItem('class', '17206 - NO1')">Xóa</button>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>DHHH-02</td>
-                                    <td>Kỹ thuật tàu thủy</td>
-                                    <td>PGS. Trần Thị B</td>
+                                    <td>17206 - NO2</td>
+                                    <td>Tin đại cương</td>
+                                    <td>TS. Mai Thị Trang</td>
                                     <td>T3/T5 13:00-15:00</td>
+                                    <td>38</td>
                                     <td>
-                                        <button class="action-btn" onclick="editItem('class', 'DHHH-02')">Sửa</button>
-                                        <button class="action-btn delete-btn" onclick="deleteItem('class', 'DHHH-02')">Xóa</button>
+                                        <button class="action-btn" onclick="editItem('class', '17206 - NO2')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteItem('class', '17206 - NO2')">Xóa</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -942,6 +1172,7 @@
                                     <th>Mã kỳ thi</th>
                                     <th>Tên kỳ thi</th>
                                     <th>Môn thi</th>
+                                    <th>Lớp tham gia</th>
                                     <th>Ngày thi</th>
                                     <th>Thao tác</th>
                                 </tr>
@@ -949,8 +1180,9 @@
                             <tbody>
                                 <tr>
                                     <td>E001</td>
-                                    <td>Giữa kỳ</td>
-                                    <td>Hàng hải cơ bản</td>
+                                    <td>Cuối kỳ</td>
+                                    <td>Tin học văn phòng</td>
+                                    <td>17206 - NO1</td>
                                     <td>15/10/2023</td>
                                     <td>
                                         <button class="action-btn" onclick="viewExamDetails('E001')">Xem chi tiết</button>
@@ -961,7 +1193,8 @@
                                 <tr>
                                     <td>E002</td>
                                     <td>Cuối kỳ</td>
-                                    <td>Kỹ thuật tàu thủy</td>
+                                    <td>Tin học văn phòng</td>
+                                    <td>17206 - NO2</td>
                                     <td>20/12/2023</td>
                                     <td>
                                         <button class="action-btn" onclick="viewExamDetails('E002')">Xem chi tiết</button>
@@ -1034,26 +1267,6 @@
                                                     <th>Điểm tối đa</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Trình bày các nguyên tắc cơ bản của hàng hải?</td>
-                                                    <td>Các nguyên tắc bao gồm: (1) Tuân thủ luật biển quốc tế, (2) Đảm bảo an toàn hàng hải, (3) Bảo vệ môi trường biển</td>
-                                                    <td>2</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Giải thích các yếu tố ảnh hưởng đến độ ổn định của tàu?</td>
-                                                    <td>Các yếu tố bao gồm: (1) Trọng tâm tàu, (2) Hình dáng thân tàu, (3) Phân bố tải trọng, (4) Điều kiện sóng gió</td>
-                                                    <td>3</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Nêu các loại bản đồ hàng hải thông dụng?</td>
-                                                    <td>Các loại bản đồ: (1) Bản đồ hàng trình, (2) Bản đồ cảng, (3) Bản đồ khu vực đặc biệt, (4) Bản đồ điện tử</td>
-                                                    <td>1.5</td>
-                                                </tr>
-                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -1075,20 +1288,14 @@
                                             <tr>
                                                 <td>S001</td>
                                                 <td>Lê Văn C</td>
-                                                <td>DHHH-01</td>
+                                                <td>17206 - NO2</td>
                                                 <td>Đã đăng ký</td>
                                             </tr>
                                             <tr>
                                                 <td>S002</td>
                                                 <td>Phạm Thị D</td>
-                                                <td>DHHH-02</td>
+                                                <td>17206 - NO2</td>
                                                 <td>Đã đăng ký</td>
-                                            </tr>
-                                            <tr>
-                                                <td>S003</td>
-                                                <td>Trần Văn E</td>
-                                                <td>DHHH-01</td>
-                                                <td>Chưa đăng ký</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1120,15 +1327,6 @@
                                                 <td>5.2</td>
                                                 <td>Khá</td>
                                             </tr>
-                                            <tr>
-                                                <td>S002</td>
-                                                <td>Phạm Thị D</td>
-                                                <td><input type="number" class="score-input" value="1.8" min="0" max="2" step="0.1"></td>
-                                                <td><input type="number" class="score-input" value="2.8" min="0" max="3" step="0.1"></td>
-                                                <td><input type="number" class="score-input" value="1.4" min="0" max="1.5" step="0.1"></td>
-                                                <td>6.0</td>
-                                                <td>Giỏi</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                     <button class="action-btn" style="margin-top: 15px;">Lưu điểm</button>
@@ -1149,6 +1347,7 @@
                 <div class="lecturer-tab active" onclick="openLecturerTab('my-classes-tab')">Lớp học của tôi</div>
                 <div class="lecturer-tab" onclick="openLecturerTab('my-exams-tab')">Kỳ thi của tôi</div>
                 <div class="lecturer-tab" onclick="openLecturerTab('student-management-tab')">Quản lý sinh viên</div>
+                <div class="lecturer-tab" onclick="openLecturerTab('practice-exercises-tab')">Bài tập thực hành</div>
             </div>
             
             <!-- Lecturer Tab Contents -->
@@ -1159,24 +1358,24 @@
                         <h3>Danh sách lớp học phụ trách</h3>
                         <div class="my-classes">
                             <div class="class-card">
-                                <h3>Hàng hải cơ bản</h3>
-                                <p><strong>Mã lớp:</strong> DHHH-01</p>
+                                <h3>Tin học văn phòng</h3>
+                                <p><strong>Mã lớp:</strong> 17206 - NO1</p>
                                 <p><strong>Lịch học:</strong> T2/T4 8:00-10:00</p>
                                 <p><strong>Số sinh viên:</strong> 45</p>
                                 <div class="class-actions">
-                                    <button class="action-btn" onclick="viewClassDetails('DHHH-01')">Xem chi tiết</button>
-                                    <button class="action-btn" onclick="editClass('DHHH-01')">Sửa</button>
+                                    <button class="action-btn" onclick="viewClassDetails('17206 - NO1')">Xem chi tiết</button>
+                                    <button class="action-btn" onclick="editClass('17206 - NO1')">Sửa</button>
                                 </div>
                             </div>
                             
                             <div class="class-card">
-                                <h3>Kỹ thuật tàu thủy</h3>
-                                <p><strong>Mã lớp:</strong> DHHH-02</p>
+                                <h3>Tin học văn phòng</h3>
+                                <p><strong>Mã lớp:</strong> 17206 - NO2</p>
                                 <p><strong>Lịch học:</strong> T3/T5 13:00-15:00</p>
                                 <p><strong>Số sinh viên:</strong> 38</p>
                                 <div class="class-actions">
-                                    <button class="action-btn" onclick="viewClassDetails('DHHH-02')">Xem chi tiết</button>
-                                    <button class="action-btn" onclick="editClass('DHHH-02')">Sửa</button>
+                                    <button class="action-btn" onclick="viewClassDetails('17206 - NO2')">Xem chi tiết</button>
+                                    <button class="action-btn" onclick="editClass('17206 - NO2')">Sửa</button>
                                 </div>
                             </div>
                         </div>
@@ -1194,15 +1393,15 @@
                                 <table>
                                     <tr>
                                         <th width="200">Mã lớp:</th>
-                                        <td id="class-code-detail">DHHH-01</td>
+                                        <td id="class-code-detail">17206 - NO1</td>
                                     </tr>
                                     <tr>
                                         <th>Tên lớp:</th>
-                                        <td id="class-name-detail">Hàng hải cơ bản</td>
+                                        <td id="class-name-detail">Tin học văn phòng</td>
                                     </tr>
                                     <tr>
                                         <th>Giảng viên:</th>
-                                        <td id="class-lecturer-detail">TS. Nguyễn Văn A</td>
+                                        <td id="class-lecturer-detail">TS. Nguyễn Kim Anh</td>
                                     </tr>
                                     <tr>
                                         <th>Lịch học:</th>
@@ -1224,7 +1423,7 @@
                                             <th>Mã SV</th>
                                             <th>Họ và tên</th>
                                             <th>Email</th>
-                                            <th>Điểm giữa kỳ</th>
+                                            <th>Điểm thực hành</th>
                                             <th>Điểm cuối kỳ</th>
                                             <th>Điểm tổng kết</th>
                                         </tr>
@@ -1271,8 +1470,8 @@
                                                 <th rowspan="2">Điểm tổng kết</th>
                                             </tr>
                                             <tr>
-                                                <th>Chuyên cần (10%)</th>
-                                                <th>Giữa kỳ (30%)</th>
+                                                <th>Bài thực hành 1</th>
+                                                <th>Bài thực hành 2 (30%)</th>
                                                 <th>Cuối kỳ (60%)</th>
                                             </tr>
                                         </thead>
@@ -1320,6 +1519,7 @@
                                 <tr>
                                     <th>Tên kỳ thi</th>
                                     <th>Môn thi</th>
+                                    <th>Lớp tham gia</th>
                                     <th>Ngày thi</th>
                                     <th>Số sinh viên</th>
                                     <th>Thao tác</th>
@@ -1327,8 +1527,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Giữa kỳ</td>
-                                    <td>Hàng hải cơ bản</td>
+                                    <td>Cuối kỳ</td>
+                                    <td>Tin học văn phòng</td>
+                                    <td>17206 - NO1</td>
                                     <td>15/10/2023</td>
                                     <td>45</td>
                                     <td>
@@ -1338,7 +1539,8 @@
                                 </tr>
                                 <tr>
                                     <td>Cuối kỳ</td>
-                                    <td>Kỹ thuật tàu thủy</td>
+                                    <td>Tin học văn phòng</td>
+                                    <td>17206 - NO2</td>
                                     <td>20/12/2023</td>
                                     <td>38</td>
                                     <td>
@@ -1362,11 +1564,15 @@
                                 <table>
                                     <tr>
                                         <th width="200">Tên kỳ thi:</th>
-                                        <td id="exam-name-detail">Giữa kỳ</td>
+                                        <td id="exam-name-detail">Cuối kỳ</td>
                                     </tr>
                                     <tr>
                                         <th>Môn thi:</th>
-                                        <td id="exam-subject-detail">Hàng hải cơ bản</td>
+                                        <td id="exam-subject-detail">Tin học văn phòng</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Lớp tham gia:</th>
+                                        <td id="exam-class-detail">17206 - NO1</td>
                                     </tr>
                                     <tr>
                                         <th>Ngày thi:</th>
@@ -1444,20 +1650,14 @@
                                             <tr>
                                                 <td>S001</td>
                                                 <td>Lê Văn C</td>
-                                                <td>DHHH-01</td>
+                                                <td>17206 - NO1</td>
                                                 <td>Đã đăng ký</td>
                                             </tr>
                                             <tr>
                                                 <td>S002</td>
                                                 <td>Phạm Thị D</td>
-                                                <td>DHHH-02</td>
+                                                <td>17206 - NO2</td>
                                                 <td>Đã đăng ký</td>
-                                            </tr>
-                                            <tr>
-                                                <td>S003</td>
-                                                <td>Trần Văn E</td>
-                                                <td>DHHH-01</td>
-                                                <td>Chưa đăng ký</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -1489,15 +1689,6 @@
                                                 <td>5.2</td>
                                                 <td>Khá</td>
                                             </tr>
-                                            <tr>
-                                                <td>S002</td>
-                                                <td>Phạm Thị D</td>
-                                                <td><input type="number" class="score-input" value="1.8" min="0" max="2" step="0.1"></td>
-                                                <td><input type="number" class="score-input" value="2.8" min="0" max="3" step="0.1"></td>
-                                                <td><input type="number" class="score-input" value="1.4" min="0" max="1.5" step="0.1"></td>
-                                                <td>6.0</td>
-                                                <td>Giỏi</td>
-                                            </tr>
                                         </tbody>
                                     </table>
                                     <button class="action-btn" style="margin-top: 15px;">Lưu điểm</button>
@@ -1515,8 +1706,8 @@
                             <label for="class-filter">Lọc theo lớp:</label>
                             <select id="class-filter" onchange="filterStudents()">
                                 <option value="">Tất cả lớp</option>
-                                <option value="DHHH-01">DHHH-01 - Hàng hải cơ bản</option>
-                                <option value="DHHH-02">DHHH-02 - Kỹ thuật tàu thủy</option>
+                                <option value="17206 - NO1">17206 - NO1 - Tin học văn phòng</option>
+                                <option value="17206 - NO2">17206 - NO2 - Tin học văn phòng</option>
                             </select>
                         </div>
                         <table id="lecturer-students-table">
@@ -1533,30 +1724,33 @@
                                 <tr>
                                     <td>S001</td>
                                     <td>Lê Văn C</td>
-                                    <td>DHHH-01</td>
+                                    <td>17206 - NO1</td>
                                     <td>levanc@student.vimu.edu.vn</td>
                                     <td>
                                         <button class="action-btn" onclick="editStudent('S001')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteStudent('S001')">Xóa</button>
                                         <button class="action-btn" onclick="viewStudentScores('S001')">Xem điểm</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>S002</td>
                                     <td>Phạm Thị D</td>
-                                    <td>DHHH-02</td>
+                                    <td>17206 - NO2</td>
                                     <td>phamthid@student.vimu.edu.vn</td>
                                     <td>
                                         <button class="action-btn" onclick="editStudent('S002')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteStudent('S002')">Xóa</button>
                                         <button class="action-btn" onclick="viewStudentScores('S002')">Xem điểm</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>S003</td>
                                     <td>Trần Văn E</td>
-                                    <td>DHHH-01</td>
+                                    <td>17206 - NO1</td>
                                     <td>tranvane@student.vimu.edu.vn</td>
                                     <td>
                                         <button class="action-btn" onclick="editStudent('S003')">Sửa</button>
+                                        <button class="action-btn delete-btn" onclick="deleteStudent('S003')">Xóa</button>
                                         <button class="action-btn" onclick="viewStudentScores('S003')">Xem điểm</button>
                                     </td>
                                 </tr>
@@ -1583,7 +1777,7 @@
                                     </tr>
                                     <tr>
                                         <th>Lớp:</th>
-                                        <td id="student-class">DHHH-01</td>
+                                        <td id="student-class">17206 - NO1</td>
                                     </tr>
                                     <tr>
                                         <th>Email:</th>
@@ -1598,37 +1792,29 @@
                                     <thead>
                                         <tr>
                                             <th>Môn học</th>
-                                            <th>Chuyên cần (10%)</th>
-                                            <th>Giữa kỳ (30%)</th>
-                                            <th>Cuối kỳ (60%)</th>
+                                            <th>Bài thực hành 1</th>
+                                            <th>Bài thực hành 2</th>
+                                            <th>Cuối kỳ</th>
                                             <th>Điểm tổng kết</th>
                                             <th>Xếp loại</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Hàng hải cơ bản</td>
-                                            <td>9.0</td>
-                                            <td>7.5</td>
-                                            <td>8.2</td>
-                                            <td>7.9</td>
-                                            <td>Khá</td>
+                                            <td>Tin học văn phòng</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>Chưa đánh giá</td>
                                         </tr>
                                         <tr>
-                                            <td>Kỹ thuật tàu thủy</td>
-                                            <td>8.5</td>
-                                            <td>8.0</td>
-                                            <td>8.8</td>
-                                            <td>8.5</td>
-                                            <td>Giỏi</td>
-                                        </tr>
-                                        <tr>
-                                            <td>An toàn hàng hải</td>
-                                            <td>10.0</td>
-                                            <td>8.5</td>
-                                            <td>9.0</td>
-                                            <td>9.0</td>
-                                            <td>Xuất sắc</td>
+                                            <td>Tin học văn phòng</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>0</td>
+                                            <td>Chưa đánh giá</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1636,10 +1822,155 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Practice Exercises Tab -->
+                <div id="practice-exercises-tab" class="lecturer-tab-content">
+                    <div class="feature-card">
+                        <h3>Quản lý bài tập thực hành</h3>
+                        <button class="action-btn" onclick="openAssignmentModal()">Giao bài tập mới</button>
+                        
+                        <div class="practice-exercises-section">
+                            <h3>Danh sách bài tập đã giao</h3>
+                            
+                            <div class="exercise-list">
+                                <div class="exercise-item">
+                                    <div class="exercise-info">
+                                        <div class="exercise-title">Bài tập thực hành Tin học văn phòng - Tuần 1</div>
+                                        <div class="exercise-details">
+                                            <span><strong>Lớp:</strong> 17206 - NO1</span> | 
+                                            <span><strong>Ngày giao:</strong> 10/10/2023</span> | 
+                                            <span><strong>Hạn nộp:</strong> 17/10/2023</span>
+                                        </div>
+                                        <div class="exercise-file">
+                                            <div class="exercise-file-icon">📄</div>
+                                            <div class="exercise-file-info">
+                                                <div class="exercise-file-name">Bai_tap_Tin_hoc_van_phong_Tuan1.xlsx</div>
+                                                <div class="exercise-file-size">2.5 MB</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="exercise-actions">
+                                        <button class="action-btn" onclick="viewExerciseSubmissions('EX001')">Xem bài nộp</button>
+                                        <button class="action-btn delete-btn" onclick="deleteExercise('EX001')">Xóa</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="exercise-item">
+                                    <div class="exercise-info">
+                                        <div class="exercise-title">Bài tập thực hành Tin học văn phòng - Tuần 2</div>
+                                        <div class="exercise-details">
+                                            <span><strong>Lớp:</strong> 17206 - NO2</span> | 
+                                            <span><strong>Ngày giao:</strong> 12/10/2023</span> | 
+                                            <span><strong>Hạn nộp:</strong> 19/10/2023</span>
+                                        </div>
+                                        <div class="exercise-file">
+                                            <div class="exercise-file-icon">📄</div>
+                                            <div class="exercise-file-info">
+                                                <div class="exercise-file-name">Bai_tap_Tin_hoc_van_phong_Tuan2.pdf</div>
+                                                <div class="exercise-file-size">1.8 MB</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="exercise-actions">
+                                        <button class="action-btn" onclick="viewExerciseSubmissions('EX002')">Xem bài nộp</button>
+                                        <button class="action-btn delete-btn" onclick="deleteExercise('EX002')">Xóa</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Exercise Submissions Section (hidden by default) -->
+                    <div id="exercise-submissions" class="hidden">
+                        <div class="feature-card">
+                            <h3 id="exercise-submissions-title">Bài nộp của sinh viên</h3>
+                            <button class="back-btn" onclick="backToExerciseList()">← Quay lại danh sách bài tập</button>
+                            
+                            <div class="exam-details-section">
+                                <h4>Thông tin bài tập</h4>
+                                <table>
+                                    <tr>
+                                        <th width="200">Tên bài tập:</th>
+                                        <td id="exercise-name-detail">Bài tập thực hành Tin học văn phòng - Tuần 1</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Lớp:</th>
+                                        <td id="exercise-class-detail">17206 - NO1</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Ngày giao:</th>
+                                        <td id="exercise-assigned-date">10/10/2023</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Hạn nộp:</th>
+                                        <td id="exercise-deadline">17/10/2023</td>
+                                    </tr>
+                                    <tr>
+                                        <th>File bài tập:</th>
+                                        <td>
+                                            <a href="#" id="exercise-file-link" style="color: #003366; text-decoration: underline;">Bai_tap_Hang_hai_co_ban_Tuan1.docx</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="exam-details-section">
+                                <h4>Danh sách bài nộp</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Mã SV</th>
+                                            <th>Họ và tên</th>
+                                            <th>Ngày nộp</th>
+                                            <th>File bài nộp</th>
+                                            <th>Trạng thái</th>
+                                            <th>Điểm</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>S001</td>
+                                            <td>Lê Văn C</td>
+                                            <td>15/10/2023</td>
+                                            <td><a href="#" style="color: #003366; text-decoration: underline;">Bai_nop_S001.docx</a></td>
+                                            <td>Đã nộp</td>
+                                            <td><input type="number" class="score-input" value="8.5" min="0" max="10" step="0.1"></td>
+                                            <td>
+                                                <button class="action-btn">Chấm điểm</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>S002</td>
+                                            <td>Phạm Thị D</td>
+                                            <td>16/10/2023</td>
+                                            <td><a href="#" style="color: #003366; text-decoration: underline;">Bai_nop_S002.pdf</a></td>
+                                            <td>Đã nộp</td>
+                                            <td><input type="number" class="score-input" value="9.0" min="0" max="10" step="0.1"></td>
+                                            <td>
+                                                <button class="action-btn">Chấm điểm</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>S003</td>
+                                            <td>Trần Văn E</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                            <td>Chưa nộp</td>
+                                            <td>-</td>
+                                            <td>-</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="action-btn" style="margin-top: 15px;">Lưu điểm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Modal thêm/sửa kỳ thi -->
     <div id="form-modal" class="form-modal">
         <div class="modal-content">
@@ -1677,8 +2008,21 @@
                         <label for="student-class">Lớp</label>
                         <select id="student-class" required>
                             <option value="">Chọn lớp</option>
-                            <option value="DHHH-01">DHHH-01</option>
-                            <option value="DHHH-02">DHHH-02</option>
+                            <option value="17206 - NO1">17206 - NO1</option>
+                            <option value="17206 - NO2">17206 - NO1</option>
+                        </select>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="student-dob">Ngày sinh</label>
+                        <input type="date" id="student-dob" required>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="student-gender">Giới tính</label>
+                        <select id="student-gender" required>
+                            <option value="">Chọn giới tính</option>
+                            <option value="Nam">Nam</option>
+                            <option value="Nữ">Nữ</option>
+                            <option value="Khác">Khác</option>
                         </select>
                     </div>
                 </div>
@@ -1696,8 +2040,8 @@
                         <label for="class-lecturer">Giảng viên</label>
                         <select id="class-lecturer" required>
                             <option value="">Chọn giảng viên</option>
-                            <option value="L001">TS. Nguyễn Văn A</option>
-                            <option value="L002">PGS. Trần Thị B</option>
+                            <option value="L001">TS. Nguyễn Kim Anh</option>
+                            <option value="L002">TS. Mai Thị Trang</option>
                         </select>
                     </div>
                     <div class="modal-form-group">
@@ -1714,6 +2058,15 @@
                     <div class="modal-form-group">
                         <label for="exam-subject">Môn thi</label>
                         <input type="text" id="exam-subject" required>
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="exam-class">Lớp tham gia</label>
+                        <select id="exam-class" required>
+                            <option value="">Chọn lớp</option>
+                            <option value="17206 - NO1">17206 - NO1 - Tin học văn phòng</option>
+                            <option value="17206 - NO2">17206 - NO2 - Tin học văn phòng</option>
+                        </select>
+                        <div id="exam-class-error" class="error-message">Vui lòng chọn ít nhất một lớp</div>
                     </div>
                     <div class="modal-form-group">
                         <label for="exam-date">Ngày thi</label>
@@ -1758,13 +2111,450 @@
         </div>
     </div>
     
+    <!-- Modal giao bài tập -->
+    <div id="assignment-modal" class="assignment-modal">
+        <div class="assignment-modal-content">
+            <span class="close" onclick="closeAssignmentModal()">&times;</span>
+            <h2>Giao bài tập thực hành</h2>
+            <form id="assignment-form">
+                <div class="assignment-form-group">
+                    <label for="exercise-title">Tên bài tập</label>
+                    <input type="text" id="exercise-title" required placeholder="VD: Bài tập thực hành Tin học văn phòng - Tuần 1">
+                </div>
+                
+                <div class="assignment-form-group">
+                    <label for="exercise-class">Lớp</label>
+                    <select id="exercise-class" required>
+                        <option value="">Chọn lớp</option>
+                        <option value="17206 - NO1">17206 - NO1 - Tin học văn phòng</option>
+                        <option value="17206 - NO2">17206 - NO2 - Tin học văn phòng</option>
+                    </select>
+                </div>
+                
+                <div class="assignment-form-group">
+                    <label for="exercise-description">Mô tả bài tập</label>
+                    <textarea id="exercise-description" rows="4" required placeholder="Nhập mô tả chi tiết bài tập..."></textarea>
+                </div>
+                
+                <div class="assignment-form-group">
+                    <label for="exercise-file">File bài tập</label>
+                    <input type="file" id="exercise-file" required accept=".doc,.docx,.pdf,.xlsx,.xls">
+                    <p class="file-requirements" style="margin-top: 5px;">Chấp nhận file: .doc, .docx, .pdf, .xlsx, .xls</p>
+                </div>
+                
+                <div class="assignment-form-group">
+                    <label for="exercise-deadline">Hạn nộp</label>
+                    <div class="deadline-input">
+                        <input type="date" id="exercise-deadline" required>
+                        <input type="time" id="exercise-deadline-time" required>
+                    </div>
+                </div>
+                
+                <div class="assignment-form-group">
+                    <label for="exercise-max-score">Điểm tối đa</label>
+                    <input type="number" id="exercise-max-score" min="1" max="100" value="10" required>
+                </div>
+                
+                <button type="submit" class="btn">Giao bài tập</button>
+            </form>
+        </div>
+    </div>
+
+        <!-- Student Dashboard -->
+    <div id="student-dashboard" class="dashboard hidden">
+        <h2>Trang sinh viên</h2>
+        
+        <!-- Student Tab Navigation -->
+        <div class="lecturer-tab-container">
+            <div class="lecturer-tab active" onclick="openStudentTab('my-classes-tab')">Lớp học của tôi</div>
+            <div class="lecturer-tab" onclick="openStudentTab('my-exams-tab')">Kỳ thi của tôi</div>
+            <div class="lecturer-tab" onclick="openStudentTab('practice-exercises-tab')">Bài tập thực hành</div>
+        </div>
+        
+        <!-- Student Tab Contents -->
+        <div class="lecturer-features">
+            <!-- My Classes Tab -->
+            <div id="my-classes-tab" class="lecturer-tab-content active">
+                <div class="feature-card">
+                    <h3>Danh sách lớp học</h3>
+                    <div class="my-classes">
+                        <div class="class-card">
+                            <h3>Tin học văn phòng</h3>
+                            <p><strong>Mã lớp:</strong> 17206 - NO1</p>
+                            <p><strong>Giảng viên:</strong> TS. Nguyễn Kim Anh</p>
+                            <p><strong>Lịch học:</strong> T2/T4 8:00-10:00</p>
+                            <div class="class-actions">
+                                <button class="action-btn" onclick="viewStudentClassDetails('17206 - NO1')">Xem chi tiết</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Class Details Section (hidden by default) -->
+                <div id="student-class-details" class="class-details hidden">
+                    <div class="feature-card">
+                        <h3 id="student-class-details-title">Chi tiết lớp học</h3>
+                        <button class="back-btn" onclick="backToStudentClassList()">← Quay lại danh sách</button>
+                        
+                        <!-- Class Info -->
+                        <div class="class-details-section">
+                            <h4>Thông tin lớp học</h4>
+                            <table>
+                                <tr>
+                                    <th width="200">Mã lớp:</th>
+                                    <td id="student-class-code-detail">17206 - NO1</td>
+                                </tr>
+                                <tr>
+                                    <th>Tên lớp:</th>
+                                    <td id="student-class-name-detail">Tin học văn phòng</td>
+                                </tr>
+                                <tr>
+                                    <th>Giảng viên:</th>
+                                    <td id="student-class-lecturer-detail">TS. Nguyễn Kim Anh</td>
+                                </tr>
+                                <tr>
+                                    <th>Lịch học:</th>
+                                    <td id="student-class-schedule-detail">T2/T4 8:00-10:00</td>
+                                </tr>
+                                <tr>
+                                    <th>Số sinh viên:</th>
+                                    <td id="student-class-student-count">45</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Student Scores -->
+                        <div class="class-details-section">
+                            <h4>Kết quả học tập</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Môn học</th>
+                                        <th>Bài thực hành 1</th>
+                                        <th>Bài thực hành 2</th>
+                                        <th>Cuối kỳ (60%)</th>
+                                        <th>Điểm tổng kết</th>
+                                        <th>Xếp loại</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Tin học văn phòng</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>Chưa đánh giá</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Exams Tab -->
+            <div id="my-exams-tab" class="lecturer-tab-content">
+                <div class="feature-card">
+                    <h3>Danh sách kỳ thi</h3>
+                    <table id="student-exams-table">
+                        <thead>
+                            <tr>
+                                <th>Tên kỳ thi</th>
+                                <th>Môn thi</th>
+                                <th>Ngày thi</th>
+                                <th>Thời gian</th>
+                                <th>Địa điểm</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cuối kỳ</td>
+                                <td>Tin học văn phòng</td>
+                                <td>15/10/2023</td>
+                                <td>8:00 - 10:00</td>
+                                <td>Phòng A101</td>
+                                <td>Đã hoàn thành</td>
+                                <td>
+                                    <button class="action-btn" onclick="viewStudentExamResult('E001')">Xem kết quả</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cuối kỳ</td>
+                                <td>Tin học văn phòng</td>
+                                <td>20/12/2023</td>
+                                <td>13:00 - 15:00</td>
+                                <td>Phòng A102</td>
+                                <td>Chưa diễn ra</td>
+                                <td>
+                                    <button class="action-btn" disabled>Chưa có kết quả</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Exam Result Section (hidden by default) -->
+                <div id="student-exam-result" class="exam-details hidden">
+                    <div class="feature-card">
+                        <h3 id="student-exam-result-title">Kết quả kỳ thi</h3>
+                        <button class="back-btn" onclick="backToStudentExamList()">← Quay lại danh sách</button>
+                        
+                        <!-- Exam Info -->
+                        <div class="exam-details-section">
+                            <h4>Thông tin kỳ thi</h4>
+                            <table>
+                                <tr>
+                                    <th width="200">Tên kỳ thi:</th>
+                                    <td id="student-exam-name-detail">Cuối kỳ</td>
+                                </tr>
+                                <tr>
+                                    <th>Môn thi:</th>
+                                    <td id="student-exam-subject-detail">Tin học văn phòng</td>
+                                </tr>
+                                <tr>
+                                    <th>Ngày thi:</th>
+                                    <td id="student-exam-date-detail">15/10/2023</td>
+                                </tr>
+                                <tr>
+                                    <th>Thời gian:</th>
+                                    <td id="student-exam-time-detail">8:00 - 10:00</td>
+                                </tr>
+                                <tr>
+                                    <th>Địa điểm:</th>
+                                    <td id="student-exam-location-detail">Phòng A101</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <!-- Exam Result -->
+                        <div class="exam-details-section">
+                            <h4>Kết quả thi</h4>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Câu hỏi</th>
+                                        <th>Điểm tối đa</th>
+                                        <th>Điểm đạt được</th>
+                                        <th>Nhận xét</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1. Trình bày các nguyên tắc cơ bản của hàng hải?</td>
+                                        <td>2</td>
+                                        <td>1.5</td>
+                                        <td>Trả lời đủ nhưng thiếu ví dụ minh họa</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2. Giải thích các yếu tố ảnh hưởng đến độ ổn định của tàu?</td>
+                                        <td>3</td>
+                                        <td>2.5</td>
+                                        <td>Trả lời đầy đủ các yếu tố</td>
+                                    </tr>
+                                    <tr>
+                                        <td>3. Nêu các loại bản đồ hàng hải thông dụng?</td>
+                                        <td>1.5</td>
+                                        <td>1.2</td>
+                                        <td>Thiếu 1 loại bản đồ</td>
+                                    </tr>
+                                    <tr style="font-weight: bold;">
+                                        <td>Tổng điểm</td>
+                                        <td>6.5</td>
+                                        <td>5.2</td>
+                                        <td>Xếp loại: Khá</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Practice Exercises Tab -->
+            <div id="practice-exercises-tab" class="lecturer-tab-content">
+                <div class="feature-card">
+                    <h3>Bài tập thực hành</h3>
+                    
+                    <div class="practice-exercises-section">
+                        <h3>Danh sách bài tập</h3>
+                        
+                        <div class="exercise-list">
+                            <div class="exercise-item">
+                                <div class="exercise-info">
+                                    <div class="exercise-title">Bài tập thực hành Tin học văn phòng - Tuần 1</div>
+                                    <div class="exercise-details">
+                                        <span><strong>Lớp:</strong> 17206 - NO1</span> | 
+                                        <span><strong>Ngày giao:</strong> 10/10/2023</span> | 
+                                        <span><strong>Hạn nộp:</strong> 17/10/2023</span>
+                                    </div>
+                                    <div class="exercise-file">
+                                        <div class="exercise-file-icon">📄</div>
+                                        <div class="exercise-file-info">
+                                            <div class="exercise-file-name">Bai_tap_Hang_hai_co_ban_Tuan1.docx</div>
+                                            <div class="exercise-file-size">2.5 MB</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="exercise-actions">
+                                    <button class="action-btn" onclick="downloadExerciseFile('EX001')">Tải về</button>
+                                    <button class="action-btn" onclick="submitExercise('EX001')">Nộp bài</button>
+                                </div>
+                            </div>
+                            
+                            <div class="exercise-item">
+                                <div class="exercise-info">
+                                    <div class="exercise-title">Bài tập thực hành Tin học văn phòng - Tuần 2</div>
+                                    <div class="exercise-details">
+                                        <span><strong>Lớp:</strong> 17206 - NO1</span> | 
+                                        <span><strong>Ngày giao:</strong> 17/10/2023</span> | 
+                                        <span><strong>Hạn nộp:</strong> 24/10/2023</span> |
+                                        <span style="color: green;"><strong>Đã nộp</strong></span>
+                                    </div>
+                                    <div class="exercise-file">
+                                        <div class="exercise-file-icon">📄</div>
+                                        <div class="exercise-file-info">
+                                            <div class="exercise-file-name">Bai_tap_Hang_hai_co_ban_Tuan2.pdf</div>
+                                            <div class="exercise-file-size">1.8 MB</div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <div class="exercise-file">
+                                            <div class="exercise-file-icon">📤</div>
+                                            <div class="exercise-file-info">
+                                                <div class="exercise-file-name">Bai_nop_S001_Tuan2.docx</div>
+                                                <div class="exercise-file-size">1.2 MB</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top: 5px; color: #4CAF50;">
+                                        <strong>Điểm: 8.5/10</strong> | <strong>Nhận xét:</strong> Bài làm tốt, đầy đủ ý
+                                    </div>
+                                </div>
+                                <div class="exercise-actions">
+                                    <button class="action-btn" onclick="downloadExerciseFile('EX002')">Tải đề</button>
+                                    <button class="action-btn" onclick="viewExerciseSubmission('EX002')">Xem bài nộp</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Submit Exercise Modal -->
+                <div id="submit-exercise-modal" class="form-modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeSubmitExerciseModal()">&times;</span>
+                        <h2 id="submit-exercise-title">Nộp bài tập</h2>
+                        <form id="submit-exercise-form">
+                            <input type="hidden" id="exercise-id">
+                            
+                            <div class="modal-form-group">
+                                <label for="exercise-title-display">Tên bài tập:</label>
+                                <input type="text" id="exercise-title-display" readonly>
+                            </div>
+                            
+                            <div class="modal-form-group">
+                                <label for="exercise-deadline-display">Hạn nộp:</label>
+                                <input type="text" id="exercise-deadline-display" readonly>
+                            </div>
+                            
+                            <div class="modal-form-group">
+                                <label for="exercise-submission-file">File bài nộp:</label>
+                                <input type="file" id="exercise-submission-file" required accept=".doc,.docx,.pdf,.xlsx,.xls">
+                                <p class="file-requirements" style="margin-top: 5px;">Chấp nhận file: .doc, .docx, .pdf, .xlsx, .xls</p>
+                            </div>
+                            
+                            <div class="modal-form-group">
+                                <label for="exercise-comments">Ghi chú (nếu có):</label>
+                                <textarea id="exercise-comments" rows="3" style="width: 100%; padding: 8px;"></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn">Nộp bài</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- View Submission Modal -->
+                <div id="view-submission-modal" class="form-modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeViewSubmissionModal()">&times;</span>
+                        <h2 id="view-submission-title">Bài nộp của bạn</h2>
+                        
+                        <div class="modal-form-group">
+                            <label>Tên bài tập:</label>
+                            <p id="view-exercise-title">Bài tập thực hành Tin học văn phòng - Tuần 2</p>
+                        </div>
+                        
+                        <div class="modal-form-group">
+                            <label>Thời gian nộp:</label>
+                            <p id="view-submission-time">20/10/2023 15:30</p>
+                        </div>
+                        
+                        <div class="modal-form-group">
+                            <label>File bài nộp:</label>
+                            <div class="exercise-file">
+                                <div class="exercise-file-icon">📤</div>
+                                <div class="exercise-file-info">
+                                    <div class="exercise-file-name">Bai_nop_S001_Tuan2.docx</div>
+                                    <div class="exercise-file-size">1.2 MB</div>
+                                </div>
+                                <button class="action-btn" style="margin-left: 10px;" onclick="downloadSubmissionFile()">Tải về</button>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-form-group">
+                            <label>Ghi chú của bạn:</label>
+                            <p id="view-submission-comments">Em đã hoàn thành bài tập theo yêu cầu.</p>
+                        </div>
+                        
+                        <div class="modal-form-group">
+                            <label>Điểm:</label>
+                            <p id="view-submission-score" style="font-weight: bold; color: #4CAF50;">8.5/10</p>
+                        </div>
+                        
+                        <div class="modal-form-group">
+                            <label>Nhận xét của giảng viên:</label>
+                            <p id="view-submission-feedback">Bài làm tốt, đầy đủ ý. Cần chú ý thêm về cách trình bày.</p>
+                        </div>
+                        
+                        <button class="btn" onclick="closeViewSubmissionModal()">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <footer>
         <p>&copy; 2023 Trường Đại học Hàng hải Việt Nam. Bảo lưu mọi quyền.</p>
         <p>Địa chỉ: 484 Lạch Tray, Ngô Quyền, Hải Phòng, Việt Nam</p>
     </footer>
     
+    <!-- Include jQuery and Select2 JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
     <script>
-        // Chức năng đăng nhập
+        // Initialize Select2
+        $(document).ready(function() {
+            $('#exam-class').select2({
+                placeholder: "Chọn lớp tham gia",
+                allowClear: true
+            });
+            
+            $('#import-class').select2({
+                placeholder: "Chọn lớp",
+                allowClear: true
+            });
+            
+            $('#exercise-class').select2({
+                placeholder: "Chọn lớp",
+                allowClear: true
+            });
+        });
+        
+                // In the login form submit handler, modify the existing code:
         document.getElementById('login-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1772,13 +2562,14 @@
             const password = document.getElementById('password').value;
             
             // Kiểm tra thông tin đăng nhập admin
-            if (username === 'minhle' && password === 'minhle') {
+            if (username === 'ntkmoon' && password === 'iuzinzin') {
                 // Ẩn form đăng nhập
                 document.getElementById('login-section').classList.add('hidden');
                 
                 // Hiển thị trang quản trị admin
                 document.getElementById('admin-dashboard').classList.remove('hidden');
                 document.getElementById('lecturer-dashboard').classList.add('hidden');
+                document.getElementById('student-dashboard').classList.add('hidden');
                 document.getElementById('header-controls').classList.remove('hidden');
                 
                 // Hiển thị tên người dùng
@@ -1787,20 +2578,38 @@
                 document.getElementById('dropdown-email').textContent = username + '@vimu.edu.vn';
             } 
             // Kiểm tra thông tin đăng nhập giảng viên
-            else if (username === 'leminh' && password === 'leminh') {
+            else if (username === 'ntksun' && password === 'yeuzinzin') {
                 // Ẩn form đăng nhập
                 document.getElementById('login-section').classList.add('hidden');
                 
                 // Hiển thị trang giảng viên
                 document.getElementById('admin-dashboard').classList.add('hidden');
                 document.getElementById('lecturer-dashboard').classList.remove('hidden');
+                document.getElementById('student-dashboard').classList.add('hidden');
                 document.getElementById('header-controls').classList.remove('hidden');
                 
                 // Hiển thị tên người dùng
-                document.getElementById('display-username').textContent = "TS. Nguyễn Văn A";
-                document.getElementById('dropdown-username').textContent = "TS. Nguyễn Văn A";
-                document.getElementById('dropdown-email').textContent = "nguyenvana@vimu.edu.vn";
-            } else {
+                document.getElementById('display-username').textContent = "TS. Nguyễn Kim Anh";
+                document.getElementById('dropdown-username').textContent = "TS. Nguyễn Kim Anh";
+                document.getElementById('dropdown-email').textContent = "nguyenkimanh@vmu.edu.vn";
+            }
+            // Kiểm tra thông tin đăng nhập sinh viên
+            else if (username === 'sv123' && password === '123456') {
+                // Ẩn form đăng nhập
+                document.getElementById('login-section').classList.add('hidden');
+                
+                // Hiển thị trang sinh viên
+                document.getElementById('admin-dashboard').classList.add('hidden');
+                document.getElementById('lecturer-dashboard').classList.add('hidden');
+                document.getElementById('student-dashboard').classList.remove('hidden');
+                document.getElementById('header-controls').classList.remove('hidden');
+                
+                // Hiển thị tên người dùng
+                document.getElementById('display-username').textContent = "Lê Văn C";
+                document.getElementById('dropdown-username').textContent = "Lê Văn C (S001)";
+                document.getElementById('dropdown-email').textContent = "levanc@student.vimu.edu.vn";
+            } 
+            else {
                 alert('Tên đăng nhập hoặc mật khẩu không đúng');
             }
         });
@@ -1915,18 +2724,18 @@
             document.getElementById('class-details').classList.remove('hidden');
             
             // Cập nhật thông tin lớp học
-            if (classId === 'DHHH-01') {
-                document.getElementById('class-details-title').textContent = 'Chi tiết lớp: Hàng hải cơ bản';
-                document.getElementById('class-code-detail').textContent = 'DHHH-01';
-                document.getElementById('class-name-detail').textContent = 'Hàng hải cơ bản';
-                document.getElementById('class-lecturer-detail').textContent = 'TS. Nguyễn Văn A';
+            if (classId === '17206 - NO1') {
+                document.getElementById('class-details-title').textContent = 'Chi tiết lớp: Tin học văn phòng';
+                document.getElementById('class-code-detail').textContent = '17206 - NO1';
+                document.getElementById('class-name-detail').textContent = 'Tin học văn phòng';
+                document.getElementById('class-lecturer-detail').textContent = 'TS. Nguyễn Kim Anh';
                 document.getElementById('class-schedule-detail').textContent = 'T2/T4 8:00-10:00';
                 document.getElementById('class-student-count').textContent = '45';
-            } else if (classId === 'DHHH-02') {
-                document.getElementById('class-details-title').textContent = 'Chi tiết lớp: Kỹ thuật tàu thủy';
-                document.getElementById('class-code-detail').textContent = 'DHHH-02';
-                document.getElementById('class-name-detail').textContent = 'Kỹ thuật tàu thủy';
-                document.getElementById('class-lecturer-detail').textContent = 'PGS. Trần Thị B';
+            } else if (classId === '17206 - NO2') {
+                document.getElementById('class-details-title').textContent = 'Chi tiết lớp: Tin học văn phòng';
+                document.getElementById('class-code-detail').textContent = '17206 - NO2';
+                document.getElementById('class-name-detail').textContent = 'Tin học văn phòng';
+                document.getElementById('class-lecturer-detail').textContent = 'Ts. Mai Thị Trang';
                 document.getElementById('class-schedule-detail').textContent = 'T3/T5 13:00-15:00';
                 document.getElementById('class-student-count').textContent = '38';
             }
@@ -1951,16 +2760,18 @@
             
             // Cập nhật tiêu đề theo kỳ thi được chọn
             if (examId === 'E001') {
-                document.getElementById('lecturer-exam-details-title').textContent = 'Chi tiết kỳ thi: Giữa kỳ - Hàng hải cơ bản';
-                document.getElementById('exam-name-detail').textContent = 'Giữa kỳ';
-                document.getElementById('exam-subject-detail').textContent = 'Hàng hải cơ bản';
+                document.getElementById('lecturer-exam-details-title').textContent = 'Chi tiết kỳ thi: Cuối kỳ - Tin học văn phòng';
+                document.getElementById('exam-name-detail').textContent = 'Cuối kỳ';
+                document.getElementById('exam-subject-detail').textContent = 'Tin học văn phòng';
+                document.getElementById('exam-class-detail').textContent = '17206 - NO1';
                 document.getElementById('exam-date-detail').textContent = '15/10/2023';
                 document.getElementById('exam-time-detail').textContent = '8:00 - 10:00';
                 document.getElementById('exam-student-count').textContent = '45';
             } else if (examId === 'E002') {
-                document.getElementById('lecturer-exam-details-title').textContent = 'Chi tiết kỳ thi: Cuối kỳ - Kỹ thuật tàu thủy';
+                document.getElementById('lecturer-exam-details-title').textContent = 'Chi tiết kỳ thi: Cuối kỳ - Tin học văn phòng';
                 document.getElementById('exam-name-detail').textContent = 'Cuối kỳ';
-                document.getElementById('exam-subject-detail').textContent = 'Kỹ thuật tàu thủy';
+                document.getElementById('exam-subject-detail').textContent = 'Tin học văn phòng';
+                document.getElementById('exam-class-detail').textContent = '17206 - NO2';
                 document.getElementById('exam-date-detail').textContent = '20/12/2023';
                 document.getElementById('exam-time-detail').textContent = '13:00 - 15:00';
                 document.getElementById('exam-student-count').textContent = '38';
@@ -1998,20 +2809,14 @@
                 document.getElementById('student-scores-title').textContent = 'Kết quả học tập của sinh viên: Lê Văn C';
                 document.getElementById('student-id').textContent = 'S001';
                 document.getElementById('student-name').textContent = 'Lê Văn C';
-                document.getElementById('student-class').textContent = 'DHHH-01';
+                document.getElementById('student-class').textContent = '17206 - NO1';
                 document.getElementById('student-email').textContent = 'levanc@student.vimu.edu.vn';
             } else if (studentId === 'S002') {
                 document.getElementById('student-scores-title').textContent = 'Kết quả học tập của sinh viên: Phạm Thị D';
                 document.getElementById('student-id').textContent = 'S002';
                 document.getElementById('student-name').textContent = 'Phạm Thị D';
-                document.getElementById('student-class').textContent = 'DHHH-02';
+                document.getElementById('student-class').textContent = '17206 - NO2';
                 document.getElementById('student-email').textContent = 'phamthid@student.vimu.edu.vn';
-            } else if (studentId === 'S003') {
-                document.getElementById('student-scores-title').textContent = 'Kết quả học tập của sinh viên: Trần Văn E';
-                document.getElementById('student-id').textContent = 'S003';
-                document.getElementById('student-name').textContent = 'Trần Văn E';
-                document.getElementById('student-class').textContent = 'DHHH-01';
-                document.getElementById('student-email').textContent = 'tranvane@student.vimu.edu.vn';
             }
         }
         
@@ -2022,6 +2827,41 @@
             
             // Ẩn điểm sinh viên
             document.getElementById('student-scores').classList.add('hidden');
+        }
+        
+        // Xem bài nộp của sinh viên
+        function viewExerciseSubmissions(exerciseId) {
+            // Ẩn danh sách bài tập
+            document.querySelector('#practice-exercises-tab .feature-card').classList.add('hidden');
+            
+            // Hiển thị bài nộp
+            document.getElementById('exercise-submissions').classList.remove('hidden');
+            
+            // Cập nhật thông tin bài tập
+            if (exerciseId === 'EX001') {
+                document.getElementById('exercise-submissions-title').textContent = 'Bài nộp: Bài tập thực hành Tin học văn phòng - Tuần 1';
+                document.getElementById('exercise-name-detail').textContent = 'Bài tập thực hành Tin học văn phòng - Tuần 1';
+                document.getElementById('exercise-class-detail').textContent = '17206 - NO1';
+                document.getElementById('exercise-assigned-date').textContent = '10/10/2023';
+                document.getElementById('exercise-deadline').textContent = '17/10/2023';
+                document.getElementById('exercise-file-link').textContent = 'Bai_tap_Tin_hoc_van_phong_Tuan1.docx';
+            } else if (exerciseId === 'EX002') {
+                document.getElementById('exercise-submissions-title').textContent = 'Bài nộp: Bài tập thực hành Tin học văn phòng - Tuần 2';
+                document.getElementById('exercise-name-detail').textContent = 'Bài tập thực hành Tin học văn phòng - Tuần 2';
+                document.getElementById('exercise-class-detail').textContent = '17206 - NO2';
+                document.getElementById('exercise-assigned-date').textContent = '12/10/2023';
+                document.getElementById('exercise-deadline').textContent = '19/10/2023';
+                document.getElementById('exercise-file-link').textContent = 'Bai_tap_Tin_hoc_van_phong_Tuan2.pdf';
+            }
+        }
+        
+        // Quay lại danh sách bài tập
+        function backToExerciseList() {
+            // Hiển thị danh sách bài tập
+            document.querySelector('#practice-exercises-tab .feature-card').classList.remove('hidden');
+            
+            // Ẩn bài nộp
+            document.getElementById('exercise-submissions').classList.add('hidden');
         }
         
         // Các hàm xử lý modal
@@ -2054,6 +2894,12 @@
             } else if (itemType === 'exam') {
                 title.textContent = 'Thêm kỳ thi mới';
                 document.getElementById('exam-fields').style.display = 'block';
+                
+                // Initialize Select2 for exam class selection
+                $('#exam-class').select2({
+                    placeholder: "Chọn lớp tham gia",
+                    allowClear: true
+                });
             }
             
             modal.style.display = 'block';
@@ -2074,6 +2920,17 @@
         // Đóng modal câu hỏi
         function closeQuestionModal() {
             document.getElementById('question-modal').style.display = 'none';
+        }
+        
+        // Mở modal giao bài tập
+        function openAssignmentModal() {
+            document.getElementById('assignment-modal').style.display = 'block';
+            document.getElementById('assignment-form').reset();
+        }
+        
+        // Đóng modal giao bài tập
+        function closeAssignmentModal() {
+            document.getElementById('assignment-modal').style.display = 'none';
         }
         
         // Sửa câu hỏi
@@ -2106,6 +2963,34 @@
             }
         }
         
+        // Xóa bài tập
+        function deleteExercise(exerciseId) {
+            if (confirm('Bạn có chắc chắn muốn xóa bài tập này không?')) {
+                // Trong ứng dụng thực, bạn sẽ gửi yêu cầu xóa đến server
+                alert('Đã xóa bài tập thành công!');
+            }
+        }
+        
+        // Xóa sinh viên
+        function deleteStudent(studentId) {
+            if (confirm(`Bạn có chắc chắn muốn xóa sinh viên có mã ${studentId} không?`)) {
+                // Trong ứng dụng thực, bạn sẽ gửi yêu cầu xóa đến server
+                
+                // Xóa hàng trong bảng
+                const row = document.querySelector(`#lecturer-students-table tbody tr td:first-child:contains(${studentId})`).parentNode;
+                row.remove();
+                
+                // Cập nhật số lượng sinh viên trong lớp
+                const classRows = document.querySelectorAll('#classes-table tbody tr');
+                classRows.forEach(row => {
+                    const currentCount = parseInt(row.cells[4].textContent);
+                    row.cells[4].textContent = currentCount - 1;
+                });
+                
+                alert(`Đã xóa sinh viên có mã ${studentId} thành công!`);
+            }
+        }
+        
         function editItem(itemType, itemId) {
             const modal = document.getElementById('form-modal');
             const title = document.getElementById('modal-title');
@@ -2128,13 +3013,13 @@
                 
                 // Trong ứng dụng thực, bạn sẽ lấy dữ liệu từ database
                 if (itemId === 'L001') {
-                    document.getElementById('lecturer-name').value = 'TS. Nguyễn Văn A';
-                    document.getElementById('lecturer-email').value = 'nguyenvana@vimu.edu.vn';
-                    document.getElementById('lecturer-dept').value = 'Hàng hải';
+                    document.getElementById('lecturer-name').value = 'TS. Nguyễn Kim Anh';
+                    document.getElementById('lecturer-email').value = 'nguyenkimanh@vimu.edu.vn';
+                    document.getElementById('lecturer-dept').value = 'Tin học văn phòng';
                 } else if (itemId === 'L002') {
-                    document.getElementById('lecturer-name').value = 'PGS. Trần Thị B';
-                    document.getElementById('lecturer-email').value = 'tranthib@vimu.edu.vn';
-                    document.getElementById('lecturer-dept').value = 'Máy tàu biển';
+                    document.getElementById('lecturer-name').value = 'TS. Mai Thị Trang';
+                    document.getElementById('lecturer-email').value = 'maithitrang@vimu.edu.vn';
+                    document.getElementById('lecturer-dept').value = 'Tin học văn phòng';
                 }
             } else if (itemType === 'student') {
                 title.textContent = 'Sửa thông tin sinh viên';
@@ -2143,24 +3028,28 @@
                 if (itemId === 'S001') {
                     document.getElementById('student-name').value = 'Lê Văn C';
                     document.getElementById('student-email').value = 'levanc@student.vimu.edu.vn';
-                    document.getElementById('student-class').value = 'DHHH-01';
+                    document.getElementById('student-class').value = '17206 - NO1';
+                    document.getElementById('student-dob').value = '2000-05-15';
+                    document.getElementById('student-gender').value = 'Nam';
                 } else if (itemId === 'S002') {
                     document.getElementById('student-name').value = 'Phạm Thị D';
                     document.getElementById('student-email').value = 'phamthid@student.vimu.edu.vn';
-                    document.getElementById('student-class').value = 'DHHH-02';
+                    document.getElementById('student-class').value = '17206 - NO2';
+                    document.getElementById('student-dob').value = '2001-08-20';
+                    document.getElementById('student-gender').value = 'Nữ';
                 }
             } else if (itemType === 'class') {
                 title.textContent = 'Sửa thông tin lớp học';
                 document.getElementById('class-fields').style.display = 'block';
                 
-                if (itemId === 'DHHH-01') {
-                    document.getElementById('class-code').value = 'DHHH-01';
-                    document.getElementById('class-name').value = 'Hàng hải cơ bản';
+                if (itemId === '17206 - NO1') {
+                    document.getElementById('class-code').value = '17206 - NO1';
+                    document.getElementById('class-name').value = 'Tin học văn phòng';
                     document.getElementById('class-lecturer').value = 'L001';
                     document.getElementById('class-schedule').value = 'T2/T4 8:00-10:00';
-                } else if (itemId === 'DHHH-02') {
-                    document.getElementById('class-code').value = 'DHHH-02';
-                    document.getElementById('class-name').value = 'Kỹ thuật tàu thủy';
+                } else if (itemId === '17206 - NO2') {
+                    document.getElementById('class-code').value = '17206 - NO2';
+                    document.getElementById('class-name').value = 'Tin học văn phòng';
                     document.getElementById('class-lecturer').value = 'L002';
                     document.getElementById('class-schedule').value = 'T3/T5 13:00-15:00';
                 }
@@ -2168,14 +3057,22 @@
                 title.textContent = 'Sửa thông tin kỳ thi';
                 document.getElementById('exam-fields').style.display = 'block';
                 
+                // Initialize Select2 for exam class selection
+                $('#exam-class').select2({
+                    placeholder: "Chọn lớp tham gia",
+                    allowClear: true
+                });
+                
                 if (itemId === 'E001') {
-                    document.getElementById('exam-name').value = 'Giữa kỳ';
-                    document.getElementById('exam-subject').value = 'Hàng hải cơ bản';
+                    document.getElementById('exam-name').value = 'Cuối kỳ';
+                    document.getElementById('exam-subject').value = 'Tin học văn phòng';
+                    $('#exam-class').val('17206 - NO1').trigger('change');
                     document.getElementById('exam-date').value = '2023-10-15';
                     document.getElementById('exam-time').value = '8:00 - 10:00';
                 } else if (itemId === 'E002') {
                     document.getElementById('exam-name').value = 'Cuối kỳ';
-                    document.getElementById('exam-subject').value = 'Kỹ thuật tàu thủy';
+                    document.getElementById('exam-subject').value = 'Tin học văn phòng';
+                    $('#exam-class').val('17206 - NO2').trigger('change');
                     document.getElementById('exam-date').value = '2023-12-20';
                     document.getElementById('exam-time').value = '13:00 - 15:00';
                 }
@@ -2227,6 +3124,17 @@
             const itemId = document.getElementById('item-id').value;
             const isEdit = itemId !== '';
             
+            // Validate exam form
+            if (itemType === 'exam') {
+                const examClass = document.getElementById('exam-class').value;
+                if (!examClass) {
+                    document.getElementById('exam-class-error').style.display = 'block';
+                    return;
+                } else {
+                    document.getElementById('exam-class-error').style.display = 'none';
+                }
+            }
+            
             // Trong ứng dụng thực, bạn sẽ gửi dữ liệu này đến server
             if (isEdit) {
                 alert(`Đã cập nhật ${itemType === 'lecturer' ? 'giảng viên' : itemType === 'student' ? 'sinh viên' : itemType === 'class' ? 'lớp học' : 'kỳ thi'} có ID ${itemId} thành công!`);
@@ -2235,6 +3143,45 @@
             }
             
             closeModal();
+            
+            // Refresh the exam list to show the new/updated exam
+            if (itemType === 'exam') {
+                // In a real app, you would fetch the updated data from the server
+                // This is just a simulation
+                const examName = document.getElementById('exam-name').value;
+                const examSubject = document.getElementById('exam-subject').value;
+                const examClass = $('#exam-class').select2('data')[0].text;
+                const examDate = document.getElementById('exam-date').value;
+                const formattedDate = new Date(examDate).toLocaleDateString('vi-VN');
+                
+                if (isEdit) {
+                    // Update existing exam in the table
+                    const examRow = document.querySelector(`#exams-table tbody tr td:first-child:contains(${itemId})`).parentNode;
+                    examRow.cells[1].textContent = examName;
+                    examRow.cells[2].textContent = examSubject;
+                    examRow.cells[3].textContent = examClass.split(' - ')[0]; // Just show the class code
+                    examRow.cells[4].textContent = formattedDate;
+                } else {
+                    // Add new exam to the table
+                    const examsTable = document.getElementById('exams-table').getElementsByTagName('tbody')[0];
+                    const newRow = examsTable.insertRow();
+                    
+                    const newExamId = 'E00' + (examsTable.rows.length + 1);
+                    
+                    newRow.innerHTML = `
+                        <td>${newExamId}</td>
+                        <td>${examName}</td>
+                        <td>${examSubject}</td>
+                        <td>${examClass.split(' - ')[0]}</td>
+                        <td>${formattedDate}</td>
+                        <td>
+                            <button class="action-btn" onclick="viewExamDetails('${newExamId}')">Xem chi tiết</button>
+                            <button class="action-btn" onclick="editItem('exam', '${newExamId}')">Sửa</button>
+                            <button class="action-btn delete-btn" onclick="deleteItem('exam', '${newExamId}')">Xóa</button>
+                        </td>
+                    `;
+                }
+            }
         });
         
         // Xử lý submit form câu hỏi
@@ -2254,10 +3201,64 @@
             closeQuestionModal();
         });
         
+        // Xử lý submit form giao bài tập
+        document.getElementById('assignment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const exerciseTitle = document.getElementById('exercise-title').value;
+            const exerciseClass = $('#exercise-class').select2('data')[0].text;
+            const exerciseDescription = document.getElementById('exercise-description').value;
+            const exerciseFile = document.getElementById('exercise-file').files[0];
+            const deadlineDate = document.getElementById('exercise-deadline').value;
+            const deadlineTime = document.getElementById('exercise-deadline-time').value;
+            const maxScore = document.getElementById('exercise-max-score').value;
+            
+            // Format deadline
+            const deadline = new Date(`${deadlineDate} ${deadlineTime}`);
+            const formattedDeadline = deadline.toLocaleDateString('vi-VN') + ' ' + deadline.toLocaleTimeString('vi-VN', {hour: '2-digit', minute:'2-digit'});
+            
+            // Trong ứng dụng thực, bạn sẽ gửi dữ liệu này đến server
+            alert(`Đã giao bài tập "${exerciseTitle}" cho lớp ${exerciseClass} thành công!`);
+            
+            // Thêm bài tập vào danh sách
+            const exerciseList = document.querySelector('.exercise-list');
+            const newExercise = document.createElement('div');
+            newExercise.className = 'exercise-item';
+            
+            const exerciseId = 'EX00' + (exerciseList.children.length + 1);
+            
+            newExercise.innerHTML = `
+                <div class="exercise-info">
+                    <div class="exercise-title">${exerciseTitle}</div>
+                    <div class="exercise-details">
+                        <span><strong>Lớp:</strong> ${exerciseClass}</span> | 
+                        <span><strong>Ngày giao:</strong> ${new Date().toLocaleDateString('vi-VN')}</span> | 
+                        <span><strong>Hạn nộp:</strong> ${formattedDeadline}</span>
+                    </div>
+                    <div class="exercise-file">
+                        <div class="exercise-file-icon">📄</div>
+                        <div class="exercise-file-info">
+                            <div class="exercise-file-name">${exerciseFile.name}</div>
+                            <div class="exercise-file-size">${(exerciseFile.size / (1024*1024)).toFixed(2)} MB</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-actions">
+                    <button class="action-btn" onclick="viewExerciseSubmissions('${exerciseId}')">Xem bài nộp</button>
+                    <button class="action-btn delete-btn" onclick="deleteExercise('${exerciseId}')">Xóa</button>
+                </div>
+            `;
+            
+            exerciseList.appendChild(newExercise);
+            
+            closeAssignmentModal();
+        });
+        
         // Đóng modal khi click bên ngoài
         window.onclick = function(event) {
             const modal = document.getElementById('form-modal');
             const questionModal = document.getElementById('question-modal');
+            const assignmentModal = document.getElementById('assignment-modal');
             
             if (event.target === modal) {
                 closeModal();
@@ -2265,6 +3266,10 @@
             
             if (event.target === questionModal) {
                 closeQuestionModal();
+            }
+            
+            if (event.target === assignmentModal) {
+                closeAssignmentModal();
             }
         };
         
@@ -2327,25 +3332,6 @@
                 previewTable.deleteRow(1);
             }
             
-            // Thêm dữ liệu mô phỏng
-            const mockData = [
-                {
-                    question: "Trình bày các nguyên tắc cơ bản của hàng hải?",
-                    answer: "Các nguyên tắc bao gồm: (1) Tuân thủ luật biển quốc tế, (2) Đảm bảo an toàn hàng hải, (3) Bảo vệ môi trường biển",
-                    maxScore: 2
-                },
-                {
-                    question: "Giải thích các yếu tố ảnh hưởng đến độ ổn định của tàu?",
-                    answer: "Các yếu tố bao gồm: (1) Trọng tâm tàu, (2) Hình dáng thân tàu, (3) Phân bố tải trọng, (4) Điều kiện sóng gió",
-                    maxScore: 3
-                },
-                {
-                    question: "Nêu các loại bản đồ hàng hải thông dụng?",
-                    answer: "Các loại bản đồ: (1) Bản đồ hàng trình, (2) Bản đồ cảng, (3) Bản đồ khu vực đặc biệt, (4) Bản đồ điện tử",
-                    maxScore: 1.5
-                }
-            ];
-            
             mockData.forEach((item, index) => {
                 const row = previewTable.insertRow();
                 const cell1 = row.insertCell(0);
@@ -2388,6 +3374,130 @@
                 
                 alert(`Đã xóa file ${filename} thành công!`);
             }
+        }
+
+        // Import students from Excel
+        function importStudents() {
+            const classSelect = document.getElementById('import-class');
+            const fileInput = document.getElementById('student-excel-file');
+            const resultDiv = document.getElementById('import-result');
+            
+            const selectedClass = classSelect.value;
+            const file = fileInput.files[0];
+            
+            if (!selectedClass) {
+                alert('Vui lòng chọn lớp trước khi nhập dữ liệu');
+                return;
+            }
+            
+            if (!file) {
+                alert('Vui lòng chọn file Excel chứa danh sách sinh viên');
+                return;
+            }
+            
+            // Kiểm tra định dạng file
+            const validExtensions = ['.xlsx', '.xls', '.csv'];
+            const fileExtension = file.name.substring(file.name.lastIndexOf('.')).toLowerCase();
+            
+            if (!validExtensions.includes(fileExtension)) {
+                alert('Vui lòng chọn file có định dạng .xlsx, .xls hoặc .csv');
+                return;
+            }
+            
+            // Mô phỏng đọc file Excel và nhập dữ liệu
+            // Trong thực tế, bạn sẽ sử dụng thư viện như SheetJS để đọc file Excel
+            
+            // Hiển thị thông báo đang xử lý
+            resultDiv.innerHTML = '<p style="color: #003366;">Đang xử lý file, vui lòng chờ...</p>';
+            resultDiv.classList.remove('hidden');
+            
+            // Mô phỏng delay khi xử lý file
+            setTimeout(function() {
+                // Mô phỏng dữ liệu từ file Excel
+                const mockStudents = [
+                    { id: 'S003', name: 'Trần Văn E', email: 'tranvane@student.vimu.edu.vn', dob: '10/12/2000', gender: 'Nam' },
+                    { id: 'S004', name: 'Nguyễn Thị F', email: 'nguyenthif@student.vimu.edu.vn', dob: '05/03/2001', gender: 'Nữ' },
+                    { id: 'S005', name: 'Phạm Văn G', email: 'phamvang@student.vimu.edu.vn', dob: '20/07/2000', gender: 'Nam' }
+                ];
+                
+                // Thêm sinh viên vào bảng
+                const studentsTable = document.getElementById('students-table').getElementsByTagName('tbody')[0];
+                
+                mockStudents.forEach(student => {
+                    const newRow = studentsTable.insertRow();
+                    newRow.innerHTML = `
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>${student.email}</td>
+                        <td>${selectedClass}</td>
+                        <td>${student.dob}</td>
+                        <td>${student.gender}</td>
+                        <td>
+                            <button class="action-btn" onclick="editItem('student', '${student.id}')">Sửa</button>
+                            <button class="action-btn delete-btn" onclick="deleteItem('student', '${student.id}')">Xóa</button>
+                        </td>
+                    `;
+                });
+                
+                // Cập nhật số lượng sinh viên trong lớp
+                const classRows = document.querySelectorAll('#classes-table tbody tr');
+                classRows.forEach(row => {
+                    if (row.cells[0].textContent === selectedClass) {
+                        const currentCount = parseInt(row.cells[4].textContent);
+                        row.cells[4].textContent = currentCount + mockStudents.length;
+                    }
+                });
+                
+                // Hiển thị kết quả
+                resultDiv.innerHTML = `
+                    <div style="background-color: #e6ffe6; padding: 10px; border-radius: 5px; border-left: 4px solid #4CAF50;">
+                        <h4 style="color: #4CAF50; margin-bottom: 10px;">Nhập dữ liệu thành công!</h4>
+                        <p>Đã thêm ${mockStudents.length} sinh viên vào lớp ${selectedClass}</p>
+                        <ul style="margin-top: 10px;">
+                            ${mockStudents.map(student => `<li>${student.id} - ${student.name}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                // Reset file input
+                fileInput.value = '';
+            }, 2000);
+        }
+        
+        // Download student template
+        function downloadStudentTemplate() {
+            // Tạo dữ liệu mẫu cho file Excel
+            const templateData = [
+                ['Mã SV', 'Họ và tên', 'Email', 'Ngày sinh (dd/mm/yyyy)', 'Giới tính (Nam/Nữ/Khác)'],
+                ['S001', 'Lê Văn C', 'levanc@student.vimu.edu.vn', '15/05/2000', 'Nam'],
+                ['S002', 'Phạm Thị D', 'phamthid@student.vimu.edu.vn', '20/08/2001', 'Nữ'],
+                ['', '', '', '', ''],
+                ['Lưu ý:', '', '', '', ''],
+                ['- Giữ nguyên hàng tiêu đề', '', '', '', ''],
+                ['- Mã SV phải là duy nhất', '', '', '', ''],
+                ['- Email phải đúng định dạng', '', '', '', ''],
+                ['- Ngày sinh theo định dạng dd/mm/yyyy', '', '', '', ''],
+                ['- Giới tính: Nam, Nữ hoặc Khác', '', '', '', '']
+            ];
+            
+            // Tạo file CSV từ dữ liệu mẫu
+            let csvContent = '';
+            templateData.forEach(row => {
+                csvContent += row.join(',') + '\n';
+            });
+            
+            // Tạo blob và tải về
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'Mau_nhap_sinh_vien.csv');
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
